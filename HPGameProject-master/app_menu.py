@@ -4,6 +4,8 @@ import os
 from load_other import load_sound, load_image
 from load_image_button import LoadImage
 from main import play_g
+from const import *
+import pygame.mixer
 
 
 pygame.init()
@@ -115,6 +117,7 @@ def menu_game():
             if but.choice:
                 pygame.draw.rect(screen, but.selected_color, (but.x, but.y, but.width, but.height), 5)
         if play:
+            pygame.mixer.music.stop()
             shading()
             for btn in [germiona_page, garri_page, ron_page, drako_page]:
                 btn.choice = False
@@ -137,6 +140,8 @@ def terminate():
 
 def menu_start():
     running = True
+    pygame.mixer.music.load('data/sound/main_theme.mp3')
+    pygame.mixer.music.play(-1)
     fon = pygame.transform.scale(load_image(['menu', 'hogvarts_2.jpg']), (width, height))
     # name = pygame.transform.scale(load_image(['menu', 'name.png']), (width / 2, 100))
     screen.blit(fon, (0, 0))

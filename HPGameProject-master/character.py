@@ -1,4 +1,5 @@
 import pygame
+import pygame.mixer
 
 
 class Character:
@@ -56,6 +57,8 @@ class Character:
             if key[pygame.K_w] and not self.jump:
                 self.vertical = -17
                 self.jump = True
+                pygame.mixer.music.load('data/sound/jump_sound.mp3')
+                pygame.mixer.music.play(1)
             if key[pygame.K_1]:
                 self.attack = True
 
@@ -71,6 +74,8 @@ class Character:
             if key[pygame.K_UP] and not self.jump:
                 self.vertical = -17
                 self.jump = True
+                pygame.mixer.music.load('data/sound/jump_sound.mp3')
+                pygame.mixer.music.play(1)
             if key[pygame.K_KP1]:
                 self.attack = True
 

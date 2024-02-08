@@ -1,5 +1,5 @@
 import pygame
-from load_other import load_image
+from load_other import load_image, load_sound
 from character import Character
 
 
@@ -30,6 +30,7 @@ protego_image = pygame.image.load('data/protego_icon.png')
 depulso_image = pygame.image.load('data/depulso_icon.png')
 bombarda_image = pygame.image.load('data/bombarda_icon.png')
 heal_image = pygame.image.load('data/heal_spell_icon.png')
+
 
 shot_sprite = pygame.image.load('data/shots/spritesheet_blue_shot.png')
 shot_image = pygame.image.load('data/shot.png')

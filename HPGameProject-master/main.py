@@ -5,6 +5,7 @@ from generate_cloud import Cloud
 from health import HealthBar
 from const import *
 from database import add_to_database_1
+import pygame.mixer
 
 pygame.init()
 
@@ -92,10 +93,19 @@ class Shots:
         if self.player == 1:
             if self.image.colliderect(character_2.rect.x, character_2.rect.y, 80, 180): # осуществляет проверку на столкновение
                 if self.type == 0:
+                    pygame.mixer.music.load('data/sound/depulso_contact.mp3')
+                    pygame.mixer.music.play(1)
                     if move == 'right':
                         character_2.rect.x += 200
                     if move == 'left':
                         character_2.rect.x -= 200
+                if self.type == 20:
+                    pygame.mixer.music.load('data/sound/bomb_contact_sound.mp3')
+                    pygame.mixer.music.play(1)
+                if self.type == 5:
+                    pygame.mixer.music.load('data/sound/exp_contact_sound.mp3')
+                    pygame.mixer.music.play(1)
+
                 if not healthing.shield_2:
                     healthing.draw_healthbar(self.type, 159, 46, 1, character_2)
                 else:
@@ -108,10 +118,18 @@ class Shots:
         if self.player == 2:
             if self.image.colliderect(character_1.rect.x, character_1.rect.y, 80, 180):
                 if self.type == 0:
+                    pygame.mixer.music.load('data/sound/depulso_contact.mp3')
+                    pygame.mixer.music.play(1)
                     if move == 'right':
                         character_1.rect.x += 200
                     if move == 'left':
                         character_1.rect.x -= 200
+                if self.type == 20:
+                    pygame.mixer.music.load('data/sound/bomb_contact_sound.mp3')
+                    pygame.mixer.music.play(1)
+                if self.type == 5:
+                    pygame.mixer.music.load('data/sound/exp_contact_sound.mp3')
+                    pygame.mixer.music.play(1)
                 if not healthing.shield_1:
                     healthing.draw_healthbar(self.type, 582, 46, 2, character_1)
                 else:
@@ -296,6 +314,8 @@ def play_g(p1, p2):
             if (len(all_shots_s) < 1 and character_2.cooldown == 0 and count <= 0 and game_over == False and
                     abs(character_1.rect.x - character_2.rect.x) > 10 and (pygame.time.get_ticks() - cooldawn_time_2) >= 1500):
                 all_shots_s.append(Shots(2, character_2.rect.x + (35 * facing), character_2.rect.y + 30, facing, 5 * facing))
+                pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
+                pygame.mixer.music.play(1)
                 cooldawn_time_2 = pygame.time.get_ticks()
 
         if keys[pygame.K_1]:
@@ -306,6 +326,8 @@ def play_g(p1, p2):
             if (len(all_shots) < 1 and character_1.cooldown == 0 and count <= 0 and game_over == False
                     and abs(character_1.rect.x - character_2.rect.x) > 75 and (pygame.time.get_ticks() - cooldawn_time_1) >= 1500):
                 all_shots.append(Shots(1, character_1.rect.x + (35 * facing), character_1.rect.y + 30, facing, 5 * facing))
+                pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
+                pygame.mixer.music.play(1)
                 cooldawn_time_1 = pygame.time.get_ticks()
 
         if keys[pygame.K_2]:
@@ -317,6 +339,8 @@ def play_g(p1, p2):
                 if (len(all_shots) < 1 and character_1.cooldown == 0 and count <= 0 and game_over == False
                         and abs(character_1.rect.x - character_2.rect.x) > 100 and (pygame.time.get_ticks() - cooldawn_second1) >= 7000):
                     all_shots.append(Shots(1, character_1.rect.x + (35 * facing), character_1.rect.y + 100, facing, 2 * facing, type=20))
+                    pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
+                    pygame.mixer.music.play(1)
                     cooldawn_second1 = pygame.time.get_ticks()
             if p1 == 'ron':
                 if last_move == 'right':
@@ -326,17 +350,23 @@ def play_g(p1, p2):
                 if (len(all_shots) < 1 and character_1.cooldown == 0 and count <= 0 and game_over == False
                         and abs(character_1.rect.x - character_2.rect.x) > 100 and (pygame.time.get_ticks() - cooldawn_second1) >= 7000):
                     all_shots.append(Shots(1, character_1.rect.x + (35 * facing), character_1.rect.y + 30, facing, 8 * facing, type=0))
+                    pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
+                    pygame.mixer.music.play(1)
                     cooldawn_second1 = pygame.time.get_ticks()
             if p1 == 'garri':
                 if count <= 0 and (pygame.time.get_ticks() - cooldawn_second1) >= 15000 and game_over == False:
                     healthing.shield_1 = True
                     healthing.s1_hp = 15
                     healthing.blhp1 = 60
+                    pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
+                    pygame.mixer.music.play(1)
                     cooldawn_second1 = pygame.time.get_ticks()
             if p1 == 'drako':
                 if count <= 0 and (pygame.time.get_ticks() - cooldawn_second1) >= 10000 and game_over == False and healthing.p1_hp <= 90:
                     healthing.draw_healthbar(-10, 159, 46, 2, character_1)
                     print(healthing.p1_hp)
+                    pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
+                    pygame.mixer.music.play(1)
                     cooldawn_second1 = pygame.time.get_ticks()
 
         if keys[pygame.K_RCTRL]:
