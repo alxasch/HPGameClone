@@ -416,6 +416,8 @@ def play_g(p1, p2):
                 add_to_database_1(p2)
 
                 game_over = True
+                pygame.mixer.music.load('data/sound/win_sound.mp3')
+                pygame.mixer.music.play(1)
                 fight_time = pygame.time.get_ticks()
 
             elif character_2.living == False:
@@ -423,6 +425,8 @@ def play_g(p1, p2):
                 add_to_database_1(p1)
 
                 game_over = True
+                pygame.mixer.music.load('data/sound/win_sound.mp3')
+                pygame.mixer.music.play(1)
                 fight_time = pygame.time.get_ticks()
         else:
             if character_1.living == False:
