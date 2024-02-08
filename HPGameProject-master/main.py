@@ -338,7 +338,7 @@ def play_g(p1, p2):
                     facing = -1.5
                 if (len(all_shots) < 1 and character_1.cooldown == 0 and count <= 0 and game_over == False
                         and abs(character_1.rect.x - character_2.rect.x) > 100 and (pygame.time.get_ticks() - cooldawn_second1) >= 7000):
-                    all_shots.append(Shots(1, character_1.rect.x + (35 * facing), character_1.rect.y + 100, facing, 2 * facing, type=20))
+                    all_shots.append(Shots(1, character_1.rect.x + (35 * facing), 460, facing, 2 * facing, type=20))
                     pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
                     pygame.mixer.music.play(1)
                     cooldawn_second1 = pygame.time.get_ticks()
@@ -377,7 +377,7 @@ def play_g(p1, p2):
                     facing = -1.5
                 if (len(all_shots_s) < 1 and character_2.cooldown == 0 and count <= 0 and game_over == False
                         and abs(character_1.rect.x - character_2.rect.x) > 100 and (pygame.time.get_ticks() - cooldawn_second2) >= 7000):
-                    all_shots_s.append(Shots(2, character_2.rect.x + (35 * facing), character_2.rect.y + 100, facing, 2 * facing, type=20))
+                    all_shots_s.append(Shots(2, character_2.rect.x + (35 * facing), 460, facing, 2 * facing, type=20))
                     cooldawn_second2 = pygame.time.get_ticks()
             if p2 == 'ron':
                 if last_move_s == 'right':
