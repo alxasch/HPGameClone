@@ -11,7 +11,7 @@ class Character:
         self.rect = pygame.Rect((x, y, 80, 180))
         self.sprite_list = self.sprite_download(sprite, const)
         self.vertical = 0
-        self.action = 2 #0-death #1-run #2-stay #3-attack #4-jump
+        self.action = 2 #0-hit 1-death 2-run 3-stay 4-attack 5-jump
         self.sprite_index = 0
         self.image = self.sprite_list[self.action][self.sprite_index]
         self.change_clock = pygame.time.get_ticks()
@@ -20,6 +20,7 @@ class Character:
         self.run = False
         self.attack = False
         self.cooldown = 0
+        self.hit = False
 
     def draw(self, surface):
         picture = pygame.transform.flip(self.image, self.turn, False)
@@ -59,7 +60,7 @@ class Character:
                 self.jump = True
                 pygame.mixer.music.load('data/sound/jump_sound.mp3')
                 pygame.mixer.music.play(1)
-            if key[pygame.K_1]:
+            if key[pygame.K_1] or key[pygame.K_2]:
                 self.attack = True
 
         if self.player == 2:
@@ -76,7 +77,7 @@ class Character:
                 self.jump = True
                 pygame.mixer.music.load('data/sound/jump_sound.mp3')
                 pygame.mixer.music.play(1)
-            if key[pygame.K_KP1]:
+            if key[pygame.K_RSHIFT] or key[pygame.K_RCTRL]:
                 self.attack = True
 
         self.vertical += GRAVITATION
@@ -100,20 +101,24 @@ class Character:
     def update(self):
         decay_period = 250
         if not self.living:
+            self.update_action(1)
+        elif self.hit:
+            decay_period = 150
             self.update_action(0)
         elif self.attack == True and self.cooldown == 0:
-            self.update_action(3)
-        elif self.jump == True:
             self.update_action(4)
+        elif self.jump == True:
+            self.update_action(5)
         elif self.run == True:
-            self.update_action(1)
+            self.update_action(2)
             decay_period = 100
         else:
-            self.update_action(2)
+            self.update_action(3)
         try:
-            self.image = self.sprite_list[self.action][self.sprite_index] # обновление изображения
+            self.image = self.sprite_list[self.action][self.sprite_index]  # обновление изображения
             # проверяем время с момента последней смены картинки спрайта
             if pygame.time.get_ticks() - self.change_clock > decay_period:
+                self.hit = False
                 self.sprite_index += 1
                 self.change_clock = pygame.time.get_ticks()
             if self.sprite_index >= len(self.sprite_list[self.action]):
@@ -121,7 +126,7 @@ class Character:
                     self.sprite_index = len(self.sprite_list[self.action]) - 1
                 else:
                     self.sprite_index = 0
-                    if self.action == 3:
+                    if self.action == 4:
                         self.cooldown = 100
         except IndexError:
             self.sprite_index = 0

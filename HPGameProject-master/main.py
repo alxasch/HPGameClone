@@ -92,6 +92,7 @@ class Shots:
         self.update()
         if self.player == 1:
             if self.image.colliderect(character_2.rect.x, character_2.rect.y, 80, 180): # осуществляет проверку на столкновение
+                character_2.hit = True
                 if self.type == 0:
                     pygame.mixer.music.load('data/sound/depulso_contact.mp3')
                     pygame.mixer.music.play(1)
@@ -117,6 +118,7 @@ class Shots:
 
         if self.player == 2:
             if self.image.colliderect(character_1.rect.x, character_1.rect.y, 80, 180):
+                character_1.hit = True
                 if self.type == 0:
                     pygame.mixer.music.load('data/sound/depulso_contact.mp3')
                     pygame.mixer.music.play(1)
