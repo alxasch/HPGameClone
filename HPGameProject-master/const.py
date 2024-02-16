@@ -11,6 +11,7 @@ MAX_DISTANCE = 350
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
+BROWN = (73, 36, 0)
 # SKY = (27, 85, 131)
 SKY = (66, 170, 255)
 RED = (165, 42, 42)
@@ -24,6 +25,10 @@ germiona_sprite = load_image(["germiona.png"])
 ron_sprite = load_image(['ron.png'])
 drako_sprite = load_image(['drako.png'])
 
+stat = load_image(['menu', 'statistic.png'])
+static_sprite = pygame.transform.scale(stat, (530, 270))
+
+name_font = pygame.font.Font("data/font/Seminaria.ttf", 23)
 point_font = pygame.font.Font("data/font/Seminaria.ttf", 50)
 count_font = pygame.font.Font("data/font/Seminaria.ttf", 150)
 score_font = pygame.font.Font("data/font/Seminaria.ttf", 100)

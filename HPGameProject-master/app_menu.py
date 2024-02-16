@@ -47,6 +47,10 @@ drako_page = LoadImage(629, 150, 129, 176,
 # sprite.rect = sprite.image.get_rect()
 # cur_sprite.add(sprite)
 
+def draw_font(text, x, y, font, text_col):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
+
 
 def options():
     run = True
@@ -76,7 +80,9 @@ def menu_game():
     play = False
     player1, player2 = False, False
     fon = pygame.transform.scale(load_image(['menu', 'fon_menu_play.jpg']), (width, height))
-    print(get_the_value())
+    count = get_the_value()
+    hero = [['Гермиона Грейнджер', count[0]], ['Гарри Поттер', count[1]], ['Драко Малфой', count[2]], ['Рон Уизли', count[3]]]
+    hero = sorted(hero, key=lambda x: x[1], reverse=True)
     while run:
         screen.fill(BLACK)
         screen.blit(fon, (0, 0))
@@ -118,6 +124,10 @@ def menu_game():
             but.update(screen)
             if but.choice:
                 pygame.draw.rect(screen, but.selected_color, (but.x, but.y, but.width, but.height), 5)
+        screen.blit(static_sprite, (238, 330))
+        for n in range(4):
+            draw_font(str(n + 1) + '. ' + hero[n][0], 300, 409 + n * 35, name_font, BROWN)
+            draw_font(str(hero[n][1]), 600, 409 + n * 35, name_font, BROWN)
         if play:
             pygame.mixer.music.stop()
             shading()

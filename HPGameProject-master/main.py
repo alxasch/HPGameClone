@@ -242,6 +242,7 @@ def play_g(p1, p2):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
+                    healthing.update()
                     pygame.mixer.music.load('data/sound/main_theme.mp3')
                     pygame.mixer.music.play(-1)
                     return True
