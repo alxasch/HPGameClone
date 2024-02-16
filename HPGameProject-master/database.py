@@ -1,7 +1,7 @@
 import sqlite3
 
 def add_to_database_1(p1):
-    con = sqlite3.connect("data/database_stats")
+    con = sqlite3.connect("data/bd/database_stats")
     cur = con.cursor()
 
     if p1 == 'garri':
@@ -27,3 +27,16 @@ def add_to_database_1(p1):
         cur.execute("""UPDATE stats SET draco = draco + 1""")
         print(cur.execute("""SELECT draco FROM stats""").fetchall())
         con.commit()
+    con.close()
+
+
+def get_the_value():
+    con = sqlite3.connect("data/bd/database_stats")
+    cur = con.cursor()
+    count = []
+    for name in ['germiona', 'harry', 'draco', 'ron']:
+        qwe = cur.execute(f'SELECT {name} FROM stats').fetchall()
+        con.commit()
+        count.append(qwe[0][0])
+    con.close()
+    return count

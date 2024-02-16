@@ -15,15 +15,11 @@ last_move = 'right'
 last_move_s = 'left'
 
 time_update = pygame.time.get_ticks()
-font = pygame.font.Font(None, 100)
-text_font = pygame.font.Font(None, 50)
 points = [0, 0] # очки игроков
 
 healthing = HealthBar()
 
 pygame.display.set_caption('hb')
-
-
 
 def draw_text(text, font, text_col, x, y):
     img = font.render(text, True, text_col)
@@ -49,12 +45,12 @@ def player_two(layer):
 
 
 class Shots:
-    def __init__(self, player, x, y, facing, speed, type=5, info=SHOT_INFO):
+    def __init__(self, player, x, y, facing, speed, type=5, info=SHOT_INFO, sprite=shot_sprite, sheet=SHEET_SHOT):
         self.amount = info[0][0]
         self.amount1 = info[0][1]
         self.scale = info[1]
         self.sprite_index = 0
-        self.shot_list = self.download_shots(shot_sprite, SHEET_SHOT)
+        self.shot_list = self.download_shots(sprite, sheet)
         self.zero_x = x
         self.x, self.y = x + 10, y + 30
         self.player = player
@@ -67,18 +63,12 @@ class Shots:
         self.type = type
         self.image1 = self.shot_list[self.sprite_index]
         self.change_clock = pygame.time.get_ticks()
-        self.last_time = pygame.time.get_ticks()
-        self.last_ind = 0
-        self.last_img = last_img[self.last_ind]
         self.image = shot_image.get_rect(topleft=(self.x, self.y))
 
     def draw(self):
         picture = pygame.transform.flip(self.image1, self.turn, False)
         screen.blit(picture, (self.x, self.y))
 
-    def draw_last_img(self):
-        picture = pygame.transform.flip(self.last_img, self.turn, False)
-        screen.blit(picture, (self.x, self.y))
     def download_shots(self, sprite, const):
         sprite_list= []
         for i in range(const[0]):
@@ -159,16 +149,6 @@ class Shots:
         except IndexError:
             self.sprite_index = 0
 
-    def last_image(self):
-        decay_period = 80
-        for i in range(5):
-            if self.last_ind <= len(last_img):
-                if pygame.time.get_ticks() - self.last_time > decay_period:
-                    self.last_ind += 1
-                    self.last_time = pygame.time.get_ticks()
-                    self.draw_last_img()
-        self.last_ind = 0
-
 
 def play_g(p1, p2):
     character_1 = player_one(p1)
@@ -180,6 +160,18 @@ def play_g(p1, p2):
     game_over = False
     last_move = 'right'
     last_move_s = 'left'
+
+    cur_img_dead_sprite = 0
+    draw_dead_sprite = False
+    flip = True
+    x, y = 0, 0
+    type = 5
+
+    cur_img_dead_sprite2 = 0
+    draw_dead_sprite2 = False
+    flip2 = False
+    x2, y2 = 0, 0
+    type2 = 5
 
     time_update = pygame.time.get_ticks()
     cooldawn_time_1 = pygame.time.get_ticks()
@@ -245,6 +237,8 @@ def play_g(p1, p2):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
+                    pygame.mixer.music.load('data/sound/main_theme.mp3')
+                    pygame.mixer.music.play(-1)
                     return True
         screen.blit(bg_img[index_background], (0, 0))
 
@@ -254,7 +248,7 @@ def play_g(p1, p2):
             character_1.move(SCREEN_WIDTH, SCREEN_HEIGHT)
             character_2.move(SCREEN_WIDTH, SCREEN_HEIGHT)
         else:
-            draw_count(str(count), font, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
+            draw_count(str(count), count_font, RED, SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 3)
             if (pygame.time.get_ticks() - time_update) >= 1000:
                 count -= 1
                 time_update = pygame.time.get_ticks()
@@ -278,7 +272,7 @@ def play_g(p1, p2):
         screen.blit(hp_sprite2, (580, 20))
 
 
-        draw_text(str(points[0]) + ' : ' + str(points[1]), text_font, RED, SCREEN_WIDTH // 2 - 35, 30)
+        draw_text(str(points[0]) + ' : ' + str(points[1]), point_font, RED, SCREEN_WIDTH // 2 - 40, 20)
 
         character_1.draw(screen)
         character_2.draw(screen)
@@ -340,7 +334,8 @@ def play_g(p1, p2):
                     facing = -1.5
                 if (len(all_shots) < 1 and character_1.cooldown == 0 and count <= 0 and game_over == False
                         and abs(character_1.rect.x - character_2.rect.x) > 100 and (pygame.time.get_ticks() - cooldawn_second1) >= 7000):
-                    all_shots.append(Shots(1, character_1.rect.x + (35 * facing), 460, facing, 2 * facing, type=20))
+                    all_shots.append(Shots(1, character_1.rect.x + (35 * facing), 460, facing, 2 * facing, type=20,
+                                           info=BOMB_INFO, sprite=bomb_sprite, sheet=SHEET_BOMB))
                     pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
                     pygame.mixer.music.play(1)
                     cooldawn_second1 = pygame.time.get_ticks()
@@ -379,7 +374,8 @@ def play_g(p1, p2):
                     facing = -1.5
                 if (len(all_shots_s) < 1 and character_2.cooldown == 0 and count <= 0 and game_over == False
                         and abs(character_1.rect.x - character_2.rect.x) > 100 and (pygame.time.get_ticks() - cooldawn_second2) >= 7000):
-                    all_shots_s.append(Shots(2, character_2.rect.x + (35 * facing), 460, facing, 2 * facing, type=20))
+                    all_shots_s.append(Shots(2, character_2.rect.x + (35 * facing), 460, facing, 2 * facing, type=20,
+                                             info=BOMB_INFO, sprite=bomb_sprite, sheet=SHEET_BOMB))
                     cooldawn_second2 = pygame.time.get_ticks()
             if p2 == 'ron':
                 if last_move_s == 'right':
@@ -405,12 +401,57 @@ def play_g(p1, p2):
 
         for bul in all_shots:
             if not bul.move(character_1, character_2, last_move) or abs(bul.x - bul.zero_x) >= MAX_DISTANCE and bul.type != 20:
-                bul.last_image()
+                x, y = bul.x, bul.y
+                flip = bul.turn
+                type = bul.type
                 all_shots.pop(all_shots.index(bul))
+                draw_dead_sprite = True
         for shoot in all_shots_s:
             if not shoot.move(character_1, character_2, last_move_s) or abs(shoot.x - shoot.zero_x) >= MAX_DISTANCE and shoot.type != 20:
-                shoot.last_image()
+                x2, y2 = shoot.x, shoot.y
+                flip2 = shoot.turn
+                type2 = shoot.type
                 all_shots_s.pop(all_shots_s.index(shoot))
+                draw_dead_sprite2 = True
+
+        if draw_dead_sprite:
+            try:
+                if type == 20:
+                    lor = last_bomb
+                if type == 5:
+                    lor = last_img
+                if cur_img_dead_sprite <= len(lor):
+                    picture = pygame.transform.flip(lor[cur_img_dead_sprite], flip, False)
+                    screen.blit(picture, (x - 10, y - 30))
+                else:
+                    cur_img_dead_sprite = 0
+                    type = 5
+                    draw_dead_sprite = False
+                cur_img_dead_sprite += 1
+            except IndexError:
+                cur_img_dead_sprite = 0
+                type = 5
+                draw_dead_sprite = False
+
+        if draw_dead_sprite2:
+            try:
+                if type2 == 20:
+                    lor = last_bomb
+                if type2 == 5:
+                    lor = last_img
+                if cur_img_dead_sprite2 <= len(lor):
+                    picture = pygame.transform.flip(lor[cur_img_dead_sprite2], flip2, False)
+                    screen.blit(picture, (x2 - 30, y2 - 30))
+                else:
+                    cur_img_dead_sprite2 = 0
+                    type2 = 5
+                    draw_dead_sprite2 = False
+                cur_img_dead_sprite2 += 1
+            except IndexError:
+                cur_img_dead_sprite2 = 0
+                type2 = 5
+                draw_dead_sprite2 = False
+
 
         if game_over == False:
             if character_1.living == False:
@@ -432,9 +473,9 @@ def play_g(p1, p2):
                 fight_time = pygame.time.get_ticks()
         else:
             if character_1.living == False:
-                draw_count(p2 + ' win!', font, RED, 320, 180)
+                draw_count(p2 + ' win!', score_font, RED, 300, 180)
             elif character_2.living == False:
-                draw_count(p1 + ' win!', font, RED, 320, 180)
+                draw_count(p1 + ' win!', score_font, RED, 300, 180)
             if pygame.time.get_ticks() - fight_time > GAME_OVER_COOLDOWN:
                 game_over = False
                 count = 3

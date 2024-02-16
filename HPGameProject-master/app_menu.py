@@ -6,6 +6,7 @@ from load_image_button import LoadImage
 from main import play_g
 from const import *
 import pygame.mixer
+from database import get_the_value
 
 
 pygame.init()
@@ -75,6 +76,7 @@ def menu_game():
     play = False
     player1, player2 = False, False
     fon = pygame.transform.scale(load_image(['menu', 'fon_menu_play.jpg']), (width, height))
+    print(get_the_value())
     while run:
         screen.fill(BLACK)
         screen.blit(fon, (0, 0))
