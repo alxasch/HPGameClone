@@ -54,6 +54,8 @@ class HealthBar:
         self.p2_hp = 100
         self.grhp1 = 258
         self.grhp2 = 258
+        self.shield_1 = False
+        self.shield_2 = False
 
     def draw_shield(self, person):
         if not (person is None):
