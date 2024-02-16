@@ -33,13 +33,13 @@ button_options = LoadImage(width / 2 - (242 / 2), 400, 252, 74,
 button_exit = LoadImage(width / 2 - (242 / 2), 500, 252, 74,
                          ['menu', 'exit_but.png'], ['menu', 'exit_but_2.png'])
 button_back = LoadImage(20, 20, 100, 50,['menu', 'back_but.png'], ['menu', 'back_but-2.png'])
-garri_page = LoadImage(width / 2 - 200, 300, 129, 176,
+garri_page = LoadImage(242, 150, 129, 176,
                        ['menu', 'garri.png'])
-germiona_page = LoadImage(width / 2 - 71, 300, 129, 176,
+germiona_page = LoadImage(371, 150, 129, 176,
                        ['menu', 'germiona.png'])
-ron_page = LoadImage(width / 2 + 58, 300, 129, 176,
+ron_page = LoadImage(500, 150, 129, 176,
                        ['menu', 'ron.png'])
-drako_page = LoadImage(width / 2 + 187, 300, 129, 176,
+drako_page = LoadImage(629, 150, 129, 176,
                        ['menu', 'drako.png'])
 # cur_sprite = pygame.sprite.Group()
 # sprite = pygame.sprite.Sprite()

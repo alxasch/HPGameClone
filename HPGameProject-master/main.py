@@ -5,6 +5,7 @@ from generate_cloud import Cloud
 from health import HealthBar
 from const import *
 from database import add_to_database_1
+from star_animation import StarAnima
 import pygame.mixer
 
 pygame.init()
@@ -173,6 +174,9 @@ def play_g(p1, p2):
     x2, y2 = 0, 0
     type2 = 5
 
+    anim_star = False
+    cur_star = pygame.time.get_ticks()
+
     time_update = pygame.time.get_ticks()
     cooldawn_time_1 = pygame.time.get_ticks()
     cooldawn_second1 = pygame.time.get_ticks()
@@ -187,6 +191,7 @@ def play_g(p1, p2):
 
     all_shots = []
     all_shots_s = []
+    star_shot = []
 
     index_background = 0
     chek_score_event = pygame.USEREVENT + 1
@@ -277,6 +282,12 @@ def play_g(p1, p2):
         character_1.draw(screen)
         character_2.draw(screen)
 
+        if anim_star:
+            if pygame.time.get_ticks() - cur_star >= 1000:
+                anim_star = False
+            star.update()
+            star.draw()
+
         if healthing.shield_1 == True:
             healthing.draw_shieldbar(0, 162, 73, 1, character_1)
             healthing.draw_shield(character_1)
@@ -364,6 +375,9 @@ def play_g(p1, p2):
                     print(healthing.p1_hp)
                     pygame.mixer.music.load('data/sound/spell_use_sound.mp3')
                     pygame.mixer.music.play(1)
+                    anim_star = True
+                    cur_star = pygame.time.get_ticks()
+                    star = StarAnima(character_1.rect.x - 70, character_1.rect.y, sprite_star, screen)
                     cooldawn_second1 = pygame.time.get_ticks()
 
         if keys[pygame.K_RCTRL]:
@@ -396,6 +410,9 @@ def play_g(p1, p2):
                 if count <= 0 and (pygame.time.get_ticks() - cooldawn_second2) >= 10000 and game_over == False and healthing.p2_hp <= 90:
                     healthing.draw_healthbar(-10, 582, 46, 1, character_2)
                     print(healthing.p2_hp)
+                    anim_star = True
+                    cur_star = pygame.time.get_ticks()
+                    star = StarAnima(character_2.rect.x - 70, character_2.rect.y, sprite_star, screen)
                     cooldawn_second2 = pygame.time.get_ticks()
 
 

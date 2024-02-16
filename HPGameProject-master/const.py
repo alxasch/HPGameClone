@@ -18,6 +18,7 @@ FPS = 60
 alpha = 128
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+
 garri_sprite = load_image(['garri.png'])
 germiona_sprite = load_image(["germiona.png"])
 ron_sprite = load_image(['ron.png'])
@@ -34,6 +35,11 @@ depulso_image = load_image(['depulso_icon.png'])
 bombarda_image = load_image(['bombarda_icon.png'])
 heal_image = load_image(['heal_spell_icon.png'])
 
+star_image = load_image(['ability', 'star.png'])
+sprite_star = []
+for k in range(7):
+    img = star_image.subsurface(k * 602, 0, 602, 489)
+    sprite_star.append(pygame.transform.scale(img, (602 * 0.4, 489 * 0.4)))
 bomb_sprite = load_image(['shots', 'bomb_sprite.png'])
 
 shot_sprite = load_image(['shots', 'spritesheet_blue_shot.png'])
